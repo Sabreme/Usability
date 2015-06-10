@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>10</y>
-      <width>241</width>
-      <height>111</height>
+      <y>20</y>
+      <width>191</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -28,12 +28,15 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnStop">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>10</y>
-      <width>241</width>
-      <height>111</height>
+      <x>230</x>
+      <y>20</y>
+      <width>191</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -53,15 +56,15 @@
    <widget class="QTimeEdit" name="timeEdit">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>80</x>
       <y>160</y>
-      <width>111</width>
+      <width>101</width>
       <height>61</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <pointsize>20</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -117,6 +120,9 @@
      <property name="text">
       <string>TASK 1</string>
      </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="radioTask2">
      <property name="geometry">
@@ -148,9 +154,9 @@
    <widget class="QFrame" name="frame_DEVICES">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>200</x>
       <y>150</y>
-      <width>391</width>
+      <width>401</width>
       <height>81</height>
      </rect>
     </property>
@@ -202,6 +208,32 @@
       <string>Leap</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="btnDone">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>20</y>
+      <width>171</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DONE</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>51</width>
+      <height>61</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

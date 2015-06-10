@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->ui->timeEdit->setDisplayFormat("mm:ss");
+    this->ui->timeEdit->setTime(QTime(0,0,0,0));
+    timer =  new QTimer(this);
 }
 
 MainWindow::~MainWindow()
@@ -15,14 +18,29 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::testingMode(bool testing)
+{
+    ///We set the frames off when we are testing and leave the stop button active
+    this->ui->frame_DEVICES->setEnabled(!testing);
+    this->ui->frame_TASKS->setEnabled(!testing);
+    this->ui->btnStart->setEnabled(!testing);
+
+    this->ui->btnStop->setEnabled(testing);
+    this->ui->btnDone->setEnabled(testing);
+}
+
 void MainWindow::on_btnStart_clicked()
 {
-    this->ui->timeEdit->setDisplayFormat("mm:ss");
+
+    connect (timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
+
+    timer->start(1000);
+
+    /// Reset the Timer to ZERO
     this->ui->timeEdit->setTime(QTime(0,0,0,0));
 
-    timer =  new QTimer(this);
-    connect (timer, SIGNAL(timeout()), this, SLOT(updateCaption()));
-    timer->start(1000);
+    /// Dissable the various buttons and Panels
+    testingMode(true);
 }
 
 void MainWindow::updateCaption()
@@ -31,6 +49,22 @@ void MainWindow::updateCaption()
 }
 
 void MainWindow::on_btnStop_clicked()
+{
+    timer->stop();
+    testingMode(false);
+
+    printResult(" and Task Open");
+}
+
+void MainWindow::on_btnDone_clicked()
+{
+    timer->stop();
+    testingMode(false);
+
+    printResult(" and Task Done");
+}
+
+void MainWindow::printResult(QString status)
 {
     QString task;
     QString medium;
@@ -51,12 +85,8 @@ void MainWindow::on_btnStop_clicked()
     if (this->ui->radioTask3->isChecked() )
         task = "Task3";
 
-
-
-    timer->stop();
-
     QString seconds = QString("%1").arg(this->ui->timeEdit->time().second());
-
-    QString result = task % " using " % medium % " took  "  % seconds % "\n ";
+    QString minutes = QString("%1").arg(this->ui->timeEdit->time().minute());
+    QString result = task % " using " % medium % " took  " % minutes % ":" % seconds % status % "\n";
     this->ui->plainTextEdit_Output->insertPlainText(result);
 }
