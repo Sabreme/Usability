@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 #include "QStringBuilder"
+#include "QTextStream"
+#include "QFile"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -64,6 +66,26 @@ void MainWindow::on_btnDone_clicked()
     printResult(" and Task Done");
 }
 
+void MainWindow::loadCounterBalance(QString filename)
+{
+    QFile file("/home/pmulumba/Projects/Usability/counterbalance.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        this->ui->plainTextEdit_Output->insertPlainText("File not Found !!!");
+        return;
+    }
+    else
+    {
+        QTextStream in(&file);
+        QString line = in.readLine();
+        while (!line.isNull())
+        {
+            this->ui->plainTextEdit_Output->insertPlainText(line);
+            line = in.readLine();
+        }
+    }
+}
+
 void MainWindow::printResult(QString status)
 {
     QString task;
@@ -89,4 +111,9 @@ void MainWindow::printResult(QString status)
     QString minutes = QString("%1").arg(this->ui->timeEdit->time().minute());
     QString result = task % " using " % medium % " took  " % minutes % ":" % seconds % status % "\n";
     this->ui->plainTextEdit_Output->insertPlainText(result);
+}
+
+void MainWindow::on_btnCounterBal_clicked()
+{
+    loadCounterBalance("counterbalance.txt");
 }

@@ -25,7 +25,12 @@ private slots:
 
     void on_btnDone_clicked();
 
+    void loadCounterBalance(QString filename);
+
+
     void printResult(QString status);
+
+    void on_btnCounterBal_clicked();
 
 private:
     Ui::MainWindow *ui;
