@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 #include "QStringBuilder"
+#include "QStringList"
 #include "QTextStream"
 #include "QFile"
 
@@ -82,6 +83,10 @@ void MainWindow::loadCounterBalance(QString filename)
         while (!line.isNull())
         {
             stringConfig[lineNo] = line;
+
+            SplitAndAdd(line,lineNo);
+            //counterBalance
+
             //AddLineToConfig(line,lineNo);
             line = in.readLine();
             lineNo++;
@@ -89,15 +94,73 @@ void MainWindow::loadCounterBalance(QString filename)
     }
 }
 
+void MainWindow::SplitAndAdd(QString line, int lineNumber)
+{
+    QStringList tokens ;
+
+    tokens = line.split(",");
+
+    for (int index = 0; index < tokens.length(); index++)
+    {
+        counterBalance[lineNumber][index] = tokens.at(index);
+        this->ui->plainTextEdit_Output->insertPlainText(tokens.at(index));
+    }
+    QString lineNo = QString("%1").arg(lineNumber);
+    QString tokenSize = QString("%1").arg(tokens.length());
+
+
+    this->ui->plainTextEdit_Output->insertPlainText(" --- LineNumber " + lineNo +
+                                                     " has " + tokenSize +
+                                                     "\n");
+    tokens.clear();
+
+}
+
 void MainWindow::PrintConfig()
 {
+    QString output, word ;
+
     for (int line = 0; line < 3; line++)
     {
-        this->ui->plainTextEdit_Debug->insertPlainText(stringConfig[line] + '\n');
+        output = "";
+        for (int pos=0; pos < 8; pos++)
+        {
+            word = counterBalance[line][pos];
+           switch (pos)
+           {
+               case 0: output += "Session " + word ;
+                   break;
+               case 1: output += ", User " + word ;
+                   break;
+               case 2: output += " does [" + convertProtOrder(word) ;
+                   break;
+               case 3: output += "] >> [ " + convertProtOrder(word) ;
+                   break;
+               case 4: output += "] >> [ " + convertProtOrder(word) ;
+                   break;
+               case 5: output += " With Task Order [" + convertTask(word) ;
+                   break;
+               case 6: output += "] >> [ " + convertTask(word) ;
+                   break;
+               case 7: output += "] >> [ " + convertTask(word) ;
+                   break;
+               default:\
+                output += "\n";
+           }
 
-
+        }
+         this->ui->plainTextEdit_Debug->insertPlainText(output);
     }
-    extractTaskOrder(stringConfig[0] + '\n');
+
+//    for (int i = 0; i < 3 ; i ++)
+//    {
+//        for (int j = 0; j < 8; j++)
+//        {
+//             this->ui->plainTextEdit_Debug->insertPlainText(counterBalance[i][j]);
+//        }
+//         this->ui->plainTextEdit_Debug->insertPlainText("\n");
+
+//    }
 }
 
 void MainWindow::printResult(QString status)
@@ -137,43 +200,30 @@ void MainWindow::on_btnTest_clicked()
     PrintConfig();
 }
 
-QString MainWindow::convertTask(char task)
+QString MainWindow::convertTask(QString task)
 {
-    switch(task)
-    {
-        case 'a' : return "Transform";
-            break;
-        case 'b' : return "Sub-Volume";
-            break;
-        case 'c' : return "Slicing";
-            break;
-    }
+    if (task.compare("a")==0)
+            return "Transform";
+    if (task.compare("b")==0)
+            return "Sub-Volume";
+    if (task.compare("c")==0)
+            return "Slicing";
 }
 
-QString MainWindow::convertProtOrder(char prototype)
+QString MainWindow::convertProtOrder(QString prototype)
 {
-    switch(prototype)
-    {
-        case 'M' : return "Mouse";
-            break;
-        case 'T' : return "Touch";
-            break;
-        case 'L' : return "Leap";
-            break;
-    }
+    if (prototype.compare("L")==0)
+            return "Leap";
+    if (prototype.compare("M")==0)
+            return "Mouse";
+    if (prototype.compare("T")==0)
+            return "Touch";
 }
 
 void MainWindow::extractTaskOrder(QString line)
 {
-    //tring tasks = line.split(",",)
-
-    QString output = "Task 1 is " + convertTask(line[5].toAscii());
-
-
-    this->ui->plainTextEdit_Output->insertPlainText(output);
 }
 
 void MainWindow::extractProtOrder(QString line)
 {
-
 }
