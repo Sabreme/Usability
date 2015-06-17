@@ -68,22 +68,36 @@ void MainWindow::on_btnDone_clicked()
 
 void MainWindow::loadCounterBalance(QString filename)
 {
-    QFile file("/home/pmulumba/Projects/Usability/counterbalance.txt");
+    QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        this->ui->plainTextEdit_Output->insertPlainText("File not Found !!!");
+        this->ui->plainTextEdit_Debug->insertPlainText("File not Found !!!");
         return;
     }
     else
     {
-        QTextStream in(&file);
+        QTextStream in(&file);                
         QString line = in.readLine();
+        int lineNo = 0;
         while (!line.isNull())
         {
-            this->ui->plainTextEdit_Output->insertPlainText(line);
+            stringConfig[lineNo] = line;
+            //AddLineToConfig(line,lineNo);
             line = in.readLine();
+            lineNo++;
         }
     }
+}
+
+void MainWindow::PrintConfig()
+{
+    for (int line = 0; line < 3; line++)
+    {
+        this->ui->plainTextEdit_Debug->insertPlainText(stringConfig[line] + '\n');
+
+
+    }
+    extractTaskOrder(stringConfig[0] + '\n');
 }
 
 void MainWindow::printResult(QString status)
@@ -115,5 +129,51 @@ void MainWindow::printResult(QString status)
 
 void MainWindow::on_btnCounterBal_clicked()
 {
-    loadCounterBalance("counterbalance.txt");
+    loadCounterBalance("/home/pmulumba/Projects/Usability/counterbalance.txt");
+}
+
+void MainWindow::on_btnTest_clicked()
+{
+    PrintConfig();
+}
+
+QString MainWindow::convertTask(char task)
+{
+    switch(task)
+    {
+        case 'a' : return "Transform";
+            break;
+        case 'b' : return "Sub-Volume";
+            break;
+        case 'c' : return "Slicing";
+            break;
+    }
+}
+
+QString MainWindow::convertProtOrder(char prototype)
+{
+    switch(prototype)
+    {
+        case 'M' : return "Mouse";
+            break;
+        case 'T' : return "Touch";
+            break;
+        case 'L' : return "Leap";
+            break;
+    }
+}
+
+void MainWindow::extractTaskOrder(QString line)
+{
+    //tring tasks = line.split(",",)
+
+    QString output = "Task 1 is " + convertTask(line[5].toAscii());
+
+
+    this->ui->plainTextEdit_Output->insertPlainText(output);
+}
+
+void MainWindow::extractProtOrder(QString line)
+{
+
 }

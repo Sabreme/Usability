@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>140</y>
+      <y>70</y>
       <width>121</width>
       <height>81</height>
      </rect>
@@ -34,7 +34,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>140</y>
+      <y>70</y>
       <width>121</width>
       <height>81</height>
      </rect>
@@ -49,15 +49,15 @@
       <x>200</x>
       <y>240</y>
       <width>401</width>
-      <height>251</height>
+      <height>121</height>
      </rect>
     </property>
    </widget>
    <widget class="QTimeEdit" name="timeEdit">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>10</y>
+      <x>40</x>
+      <y>70</y>
       <width>101</width>
       <height>61</height>
      </rect>
@@ -154,10 +154,10 @@
    <widget class="QFrame" name="frame_DEVICES">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>0</y>
+      <x>200</x>
+      <y>160</y>
       <width>401</width>
-      <height>81</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -170,7 +170,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>30</y>
+       <y>20</y>
        <width>81</width>
        <height>22</height>
       </rect>
@@ -186,7 +186,7 @@
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>30</y>
+       <y>20</y>
        <width>71</width>
        <height>22</height>
       </rect>
@@ -199,7 +199,7 @@
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>30</y>
+       <y>20</y>
        <width>71</width>
        <height>22</height>
       </rect>
@@ -216,7 +216,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>140</y>
+      <y>70</y>
       <width>121</width>
       <height>81</height>
      </rect>
@@ -306,14 +306,37 @@
    <widget class="QPushButton" name="btnCounterBal">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>90</y>
-      <width>141</width>
-      <height>41</height>
+      <x>200</x>
+      <y>0</y>
+      <width>121</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
      <string>Counterbalance</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="plainTextEdit_Debug">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>370</y>
+      <width>401</width>
+      <height>121</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnTest">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>0</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Test</string>
     </property>
    </widget>
   </widget>

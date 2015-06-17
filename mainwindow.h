@@ -17,6 +17,8 @@ public:
     ~MainWindow();
     void testingMode(bool testing);
 
+    void PrintConfig();
+
 private slots:
     void on_btnStart_clicked();
     void updateCaption();
@@ -32,9 +34,22 @@ private slots:
 
     void on_btnCounterBal_clicked();
 
+    void on_btnTest_clicked();
+
+    QString convertTask(char task);
+
+    QString convertProtOrder(char prototype);
+
+    void extractTaskOrder(QString line);
+
+    void extractProtOrder(QString line);
+
+
 private:
     Ui::MainWindow *ui;
     QTimer *timer ;
+    char testConfig [8][3];
+    QString stringConfig[3];
 
 };
 
