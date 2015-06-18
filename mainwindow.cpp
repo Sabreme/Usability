@@ -44,6 +44,9 @@ void MainWindow::on_btnStart_clicked()
 
     /// Dissable the various buttons and Panels
     testingMode(true);
+
+    initiateTest(this->ui->spinBoxUSERID->value() -1);
+    SetCurrentTask(this->ui->spinBoxUSERID->value() -1);
 }
 
 void MainWindow::updateCaption()
@@ -103,17 +106,38 @@ void MainWindow::SplitAndAdd(QString line, int lineNumber)
     for (int index = 0; index < tokens.length(); index++)
     {
         counterBalance[lineNumber][index] = tokens.at(index);
-        this->ui->plainTextEdit_Output->insertPlainText(tokens.at(index));
+        this->ui->plainTextEdit_Debug->insertPlainText(tokens.at(index));
     }
     QString lineNo = QString("%1").arg(lineNumber);
     QString tokenSize = QString("%1").arg(tokens.length());
 
 
-    this->ui->plainTextEdit_Output->insertPlainText(" --- LineNumber " + lineNo +
-                                                     " has " + tokenSize +
-                                                     "\n");
+    this->ui->plainTextEdit_Debug->insertPlainText("\n");
     tokens.clear();
 
+}
+
+///
+/// \brief MainWindow::initiateTest
+/// \param sessionID
+/// \param userNumber
+///  1. We look for the row with both the session ID and User ID,
+///     Using an Optimised search parameter because the counterbalance
+///     file is organised into Sessions in groups of 3 and users in order 1,2,3
+///  2. We then extract the ordering of Tasks to a Local collection
+///  3. We then Extract the ordering of Prototypes to a local collection
+void MainWindow::initiateTest(int userID)
+{
+    QString task ;
+
+    if (this->ui->radioTask1->isChecked() )
+        task = convertTask(counterBalance[userID][one]);
+    if (this->ui->radioTask2->isChecked() )
+        task = convertTask(counterBalance[userID][two]);
+    if (this->ui->radioTask3->isChecked() )
+        task = convertTask(counterBalance[userID][three]);
+
+    this->ui->plainTextEdit_Output->insertPlainText("Task = " + task );
 }
 
 void MainWindow::PrintConfig()
@@ -123,33 +147,29 @@ void MainWindow::PrintConfig()
     for (int line = 0; line < 3; line++)
     {
         output = "";
-        for (int pos=0; pos < 8; pos++)
+        for (int pos=0; pos < 7; pos++)
         {
             word = counterBalance[line][pos];
            switch (pos)
            {
-               case 0: output += "Session " + word ;
+               case 0: output += "User " + word ;
+                   break;               
+               case 1: output += " does [" + convertProtOrder(word) ;
                    break;
-               case 1: output += ", User " + word ;
+               case 2: output += "] -> [ " + convertProtOrder(word) ;
                    break;
-               case 2: output += " does [" + convertProtOrder(word) ;
+               case 3: output += "] -> [ " + convertProtOrder(word) ;
                    break;
-               case 3: output += "] >> [ " + convertProtOrder(word) ;
+               case 4: output += "] With Tasks [" + convertTask(word) ;
                    break;
-               case 4: output += "] >> [ " + convertProtOrder(word) ;
+               case 5: output += "] -> [ " + convertTask(word) ;
                    break;
-               case 5: output += " With Task Order [" + convertTask(word) ;
-                   break;
-               case 6: output += "] >> [ " + convertTask(word) ;
-                   break;
-               case 7: output += "] >> [ " + convertTask(word) ;
-                   break;
-               default:\
-                output += "\n";
+               case 6: output += "] -> [ " + convertTask(word) ;
+                   break;          
            }
-
         }
-         this->ui->plainTextEdit_Debug->insertPlainText(output);
+         output += "\n";
+         this->ui->plainTextEdit_Output->insertPlainText(output);
     }
 
 //    for (int i = 0; i < 3 ; i ++)
@@ -176,13 +196,15 @@ void MainWindow::printResult(QString status)
     if (this->ui->radioTouch->isChecked() )
         medium = "Touch";
 
-    ///////    TASK RADIO BUTTONS   /////////////
-    if (this->ui->radioTask1->isChecked() )
-        task = "Task1";
-    if (this->ui->radioTask2->isChecked() )
-        task = "Task2";
-    if (this->ui->radioTask3->isChecked() )
-        task = "Task3";
+//    ///////    TASK RADIO BUTTONS   /////////////
+//    if (this->ui->radioTask1->isChecked() )
+//        task = "Task1";
+//    if (this->ui->radioTask2->isChecked() )
+//        task = "Task2";
+//    if (this->ui->radioTask3->isChecked() )
+//        task = "Task3";
+
+    task = GetCurrentTask(this->ui->spinBoxUSERID->value() - 1);
 
     QString seconds = QString("%1").arg(this->ui->timeEdit->time().second());
     QString minutes = QString("%1").arg(this->ui->timeEdit->time().minute());
@@ -202,26 +224,67 @@ void MainWindow::on_btnTest_clicked()
 
 QString MainWindow::convertTask(QString task)
 {
+    QString selectedTast = "";
+
     if (task.compare("a")==0)
-            return "Transform";
+            selectedTast =  "Transform";
     if (task.compare("b")==0)
-            return "Sub-Volume";
+             selectedTast = "Sub-Volume";
     if (task.compare("c")==0)
-            return "Slicing";
+            selectedTast = "Slicing";
+
+    return selectedTast;
 }
 
 QString MainWindow::convertProtOrder(QString prototype)
 {
+    QString selectedPrototype = "";
+
     if (prototype.compare("L")==0)
-            return "Leap";
+            selectedPrototype = "Leap";
     if (prototype.compare("M")==0)
-            return "Mouse";
+            selectedPrototype = "Mouse";
     if (prototype.compare("T")==0)
-            return "Touch";
+            selectedPrototype = "Touch";
+
+    return selectedPrototype;
+
 }
 
-void MainWindow::extractTaskOrder(QString line)
+void MainWindow::SetCurrentTask(int userID)
 {
+
+    if (this->ui->radioTask1->isChecked() )
+        currentTask = one;
+    if (this->ui->radioTask2->isChecked() )
+        currentTask = two;
+    if (this->ui->radioTask3->isChecked() )
+        currentTask = three;
+
+    QString task = counterBalance[userID][currentTask];
+
+    if (task.compare("a")==0)
+            currentJob = Transformation;
+    if (task.compare("b")==0)
+             currentJob = SubVolume;
+    if (task.compare("c")==0)
+            currentJob = Slicing;
+}
+
+QString MainWindow::GetCurrentTask(int userID)
+{
+    QString task;
+
+    switch (currentTask)
+    {
+        case one: task = convertTask(counterBalance[userID][one]);
+        break;
+        case two: task = convertTask(counterBalance[userID][two]);
+        break;
+        case three: task = convertTask(counterBalance[userID][three]);
+        break;
+    }
+    return task;
 }
 
 void MainWindow::extractProtOrder(QString line)

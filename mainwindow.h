@@ -23,7 +23,9 @@ public:
 
     QString convertProtOrder(QString prototype);
 
-    void extractTaskOrder(QString line);
+    void SetCurrentTask(int userID);
+
+    QString GetCurrentTask(int userID);
 
     void extractProtOrder(QString line);
 
@@ -32,6 +34,13 @@ public:
     void printResult(QString status);
 
     void SplitAndAdd(QString line, int lineNumber);
+
+    void initiateTest(int userID);
+
+    enum Job  {Transformation, SubVolume, Slicing};
+    enum Tasks {one = 4, two = 5, three = 6};     /// Index positions in counterbalance matrix for Tasks
+    enum prototype   {Mouse, Touch, Leap};               /// Index positions in Counterbalance matrix for Prototypes
+
 private slots:
     void on_btnStart_clicked();
     void updateCaption();
@@ -55,10 +64,12 @@ private:
 
     static const int cntrBalLength = 3;
 
-    char testConfig [8][3];
+    char testConfig [7][3];
     QString stringConfig[3];
 
-    QString counterBalance[cntrBalLength][8];
+    QString counterBalance[cntrBalLength][7];
+    int currentJob;     /// Variable showing which JOB to load from the Test
+    int currentTask;    /// Variable showing current TASK radio button seleciton
     //QVector<QStringList> counterBalance(10);
 
 };
