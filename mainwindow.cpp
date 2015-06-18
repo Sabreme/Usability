@@ -187,6 +187,7 @@ void MainWindow::printResult(QString status)
 {
     QString task;
     QString medium;
+    QString taskNo;
 
     ///////    METHOD RADIO BUTTONS   /////////////
     if (this->ui->radioLeap->isChecked() )
@@ -196,19 +197,29 @@ void MainWindow::printResult(QString status)
     if (this->ui->radioTouch->isChecked() )
         medium = "Touch";
 
-//    ///////    TASK RADIO BUTTONS   /////////////
-//    if (this->ui->radioTask1->isChecked() )
-//        task = "Task1";
-//    if (this->ui->radioTask2->isChecked() )
-//        task = "Task2";
-//    if (this->ui->radioTask3->isChecked() )
-//        task = "Task3";
+    ///////    TASK RADIO BUTTONS   /////////////
+    if (this->ui->radioTask1->isChecked() )
+        taskNo = "1";
+    if (this->ui->radioTask2->isChecked() )
+        taskNo = "2";
+    if (this->ui->radioTask3->isChecked() )
+        taskNo = "3";
 
     task = GetCurrentTask(this->ui->spinBoxUSERID->value() - 1);
 
+    int sessionID = this->ui->spinBoxUSERID->value() % 3;
+
+
+    QString userID = QString("%1").arg(this->ui->spinBoxUSERID->value());
     QString seconds = QString("%1").arg(this->ui->timeEdit->time().second());
     QString minutes = QString("%1").arg(this->ui->timeEdit->time().minute());
-    QString result = task % " using " % medium % " took  " % minutes % ":" % seconds % status % "\n";
+
+    QString result =    "UserID: " + userID %
+                        ",TaskNo: " + taskNo %
+                        ",Task: " + task %
+                        ",Prototype: " % medium %
+                        " ,Time: " % minutes % ":" % seconds % status % "\n";
+
     this->ui->plainTextEdit_Output->insertPlainText(result);
 }
 
