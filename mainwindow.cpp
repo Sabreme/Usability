@@ -207,18 +207,20 @@ void MainWindow::printResult(QString status)
 
     task = GetCurrentTask(this->ui->spinBoxUSERID->value() - 1);
 
-    int sessionID = this->ui->spinBoxUSERID->value() % 3;
 
+    int seconds = this->ui->timeEdit->time().second();
+    int minutes = this->ui->timeEdit->time().minute();
 
-    QString userID = QString("%1").arg(this->ui->spinBoxUSERID->value());
-    QString seconds = QString("%1").arg(this->ui->timeEdit->time().second());
-    QString minutes = QString("%1").arg(this->ui->timeEdit->time().minute());
-
-    QString result =    "UserID: " + userID %
-                        ",TaskNo: " + taskNo %
-                        ",Task: " + task %
-                        ",Prototype: " % medium %
-                        " ,Time: " % minutes % ":" % seconds % status % "\n";
+    int userID = this->ui->spinBoxUSERID->value();
+    int sessionID = userID / 3 ;
+    if (userID % 3 != 0)
+        sessionID++;
+    QString result =    "UserID: %1" %
+                        ",TaskNo %2: "  %
+                        ",Task:  %3"   %
+                        ",Prototype:  %4" %
+                        " ,Time: %5:%6" %
+                        status % "\n";
 
     this->ui->plainTextEdit_Output->insertPlainText(result);
 }
@@ -230,7 +232,13 @@ void MainWindow::on_btnCounterBal_clicked()
 
 void MainWindow::on_btnTest_clicked()
 {
-    PrintConfig();
+    //PrintConfig();
+
+    int userID = this->ui->spinBoxUSERID->value();
+    int sessionID = userID / 3 ;
+    if (userID % 3 != 0)
+        sessionID++;
+    this->ui->plainTextEdit_Output->insertPlainText(QString("User: %1 , Session: %2 \n").arg(userID).arg(sessionID));
 }
 
 QString MainWindow::convertTask(QString task)
