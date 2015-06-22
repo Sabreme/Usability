@@ -155,11 +155,11 @@ void MainWindow::PrintConfig()
            {
                case 0: output += "User " + word ;
                    break;               
-               case 1: output += " does [" + convertProtOrder(word) ;
+               case 1: output += " does [" + convertPrototype(word) ;
                    break;
-               case 2: output += "] -> [ " + convertProtOrder(word) ;
+               case 2: output += "] -> [ " + convertPrototype(word) ;
                    break;
-               case 3: output += "] -> [ " + convertProtOrder(word) ;
+               case 3: output += "] -> [ " + convertPrototype(word) ;
                    break;
                case 4: output += "] With Tasks [" + convertTask(word) ;
                    break;
@@ -219,7 +219,6 @@ void MainWindow::printResult(QString status)
     QString result =    QString("UserID: %1 ,TaskNo: %2 ,Task: %3, Prototype: %4 ,Time: %5:%6" + status % "\n")
                                 .arg(userID).arg(taskNo).arg(task).arg(medium).arg(minutes).arg(seconds);
 
-
     saveResult(result);
 
     //this->ui->plainTextEdit_Output->insertPlainText(result);
@@ -258,6 +257,8 @@ void MainWindow::on_btnTest_clicked()
     //PrintConfig();
 //    QString taskNo;
 
+    SetCurrentPrototype(this->ui->spinBoxUSERID->value()-1);
+
 //    ///////    TASK RADIO BUTTONS   /////////////
 //    if (this->ui->radioTask1->isChecked() )
 //        taskNo = "1";
@@ -294,7 +295,7 @@ QString MainWindow::convertTask(QString task)
     return selectedTast;
 }
 
-QString MainWindow::convertProtOrder(QString prototype)
+QString MainWindow::convertPrototype(QString prototype)
 {
     QString selectedPrototype = "";
 
@@ -329,6 +330,29 @@ void MainWindow::SetCurrentTask(int userID)
             currentJob = Slicing;
 }
 
+void MainWindow::SetCurrentPrototype(int userID)
+{
+    int part = this->ui->spinBoxPARTProto->value();
+
+    if (part == 1)
+        currentPrototype = first;
+
+    if (part == 2)
+        currentPrototype = second;
+
+    if (part == 3)
+        currentPrototype = third;
+
+    QString prototype = counterBalance[userID][currentPrototype];
+
+    if (prototype.compare("L")==0)
+            this->ui->radioLeap->setChecked(true);
+    if (prototype.compare("M")==0)
+            this->ui->radioMouse->setChecked(true);
+    if (prototype.compare("T")==0)
+            this->ui->radioTouch->setChecked(true);
+}
+
 QString MainWindow::GetCurrentTask(int userID)
 {
     QString task;
@@ -343,6 +367,22 @@ QString MainWindow::GetCurrentTask(int userID)
         break;
     }
     return task;
+}
+
+QString MainWindow::GetCurrentPrototype(int userID)
+{
+    QString prototype;
+
+    switch (currentPrototype)
+    {
+        case first: prototype = convertPrototype(counterBalance[userID][first]);
+        break;
+        case second: prototype = convertPrototype(counterBalance[userID][second]);
+        break;
+        case third: prototype = convertPrototype(counterBalance[userID][third]);
+        break;
+    }
+    return prototype;
 }
 
 void MainWindow::extractProtOrder(QString line)

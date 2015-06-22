@@ -21,11 +21,15 @@ public:
 
     QString convertTask(QString task);
 
-    QString convertProtOrder(QString prototype);
+    QString convertPrototype(QString prototype);
 
     void SetCurrentTask(int userID);
 
+    void SetCurrentPrototype(int userID);
+
     QString GetCurrentTask(int userID);
+
+    QString GetCurrentPrototype(int userID);
 
     void extractProtOrder(QString line);
 
@@ -41,8 +45,11 @@ public:
     void initiateTest(int userID);
 
     enum Job  {Transformation, SubVolume, Slicing};
-    enum Tasks {one = 4, two = 5, three = 6};     /// Index positions in counterbalance matrix for Tasks
-    enum prototype   {Mouse, Touch, Leap};               /// Index positions in Counterbalance matrix for Prototypes
+    enum Tasks {one = 4, two = 5, three = 6};       /// Index positions in counterbalance matrix for Tasks
+    enum Prototype   {Mouse, Touch, Leap};         /// Index positions in Counterbalance matrix for Prototypes
+    enum Part {first = 1, second = 2, third = 3}; /// Index position in Prototype ordering matrix for Tests
+
+
 
 private slots:
     void on_btnStart_clicked();
@@ -73,6 +80,7 @@ private:
     QString counterBalance[cntrBalLength][7];
     int currentJob;     /// Variable showing which JOB to load from the Test
     int currentTask;    /// Variable showing current TASK radio button seleciton
+    int currentPrototype = 0; /// Variable showing current LOCATION for prototype
     //QVector<QStringList> counterBalance(10);
 
 };
