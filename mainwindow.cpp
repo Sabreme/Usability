@@ -137,7 +137,7 @@ void MainWindow::initiateTest(int userID)
     if (this->ui->radioTask3->isChecked() )
         task = convertTask(counterBalance[userID][three]);
 
-    this->ui->plainTextEdit_Output->insertPlainText("Task = " + task );
+    this->ui->plainTextEdit_Debug->insertPlainText("Task = " + task );
 }
 
 void MainWindow::PrintConfig()
@@ -215,12 +215,8 @@ void MainWindow::printResult(QString status)
     int sessionID = userID / 3 ;
     if (userID % 3 != 0)
         sessionID++;
-    QString result =    "UserID: %1" %
-                        ",TaskNo %2: "  %
-                        ",Task:  %3"   %
-                        ",Prototype:  %4" %
-                        " ,Time: %5:%6" %
-                        status % "\n";
+    QString result =    QString("UserID: %1 ,TaskNo: %2 ,Task: %3, Prototype: %4 ,Time: %5:%6" + status % "\n")
+                                .arg(userID).arg(taskNo).arg(task).arg(medium).arg(minutes).arg(seconds);
 
     this->ui->plainTextEdit_Output->insertPlainText(result);
 }
