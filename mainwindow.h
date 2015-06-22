@@ -33,6 +33,9 @@ public:
 
     void printResult(QString status);
 
+    void saveResult(QString result);
+
+
     void SplitAndAdd(QString line, int lineNumber);
 
     void initiateTest(int userID);

@@ -20,3 +20,8 @@ HEADERS  += mainwindow.h
 FORMS    += mainwindow.ui
 
 QMAKE_CXXFLAGS_DEBUG += -g  -std=c++0x
+
+OTHER_FILES += \
+    counterbalance.txt
+
+DESTDIR = $$PWD
