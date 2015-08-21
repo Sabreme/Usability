@@ -72,10 +72,10 @@ private:
     Ui::MainWindow *ui;
     QTimer *timer ;
 
-    static const int cntrBalLength = 20;
+    static const int cntrBalLength = 27;
 
     char testConfig [7][3];
-    QString stringConfig[20];
+    QString stringConfig[27];
 
     QString counterBalance[cntrBalLength][7];
     int currentJob;     /// Variable showing which JOB to load from the Test

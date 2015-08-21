@@ -12,12 +12,14 @@ TARGET = Usability
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += main.cpp \
+    UserTesting.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += \
+    UserTesing.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    UserTesting.ui
 
 QMAKE_CXXFLAGS_DEBUG += -g  -std=c++0x
 
