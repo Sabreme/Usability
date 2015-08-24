@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,6 +15,48 @@
   </property>
   <property name="windowTitle">
    <string>UserTesting</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">color : white;
+background-color : rgb(49,48,43);
+
+QLineEdit{
+color: white;
+background-color : rgb(38, 38, 36);
+border-color: rgb(76, 76, 76);
+}
+
+QPushButton:disabled
+{
+  background-color: rgb(225,67,19) ;
+  border: 2px solid #8f8f91;  
+  border-radius: 6px;
+ color: white ;
+}
+
+#InfoTab {
+color: white;
+background-color : rgb(49, 48, 43);
+}
+
+QFrame
+{
+border:1px solid white;
+}
+
+QLabel
+{
+border:none;
+}
+
+QPushButton:checked
+{
+  background-color: rgb(225,67,19) ;
+  border: 2px solid #8f8f91;  
+  border-radius: 6px;
+ color: white ;
+}
+</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPlainTextEdit" name="plainTextEdit_Output">
@@ -25,6 +70,9 @@
     </property>
    </widget>
    <widget class="QFrame" name="frame_TASKS">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -32,6 +80,17 @@
       <width>161</width>
       <height>111</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadiobutton::indicator::checked
+{
+	background-color:black;
+} 
+
+QRadioButton::indicator::unchecked
+{
+	background-color:white;
+}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -176,7 +235,7 @@
      <string>Test</string>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="frameButtons">
     <property name="geometry">
      <rect>
       <x>190</x>
@@ -184,6 +243,25 @@
       <width>161</width>
       <height>221</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame
+{
+border:1px solid white;
+}
+
+QLabel
+{
+border:none;
+}
+
+QPushButton:checked
+{
+  background-color: rgb(225,67,19) ;
+  border: 2px solid #8f8f91;  
+  border-radius: 6px;
+ color: white ;
+}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -203,10 +281,13 @@
      <property name="text">
       <string>START</string>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="btnStop">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -219,10 +300,16 @@
      <property name="text">
       <string>STOP</string>
      </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="btnDone">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -234,6 +321,9 @@
      </property>
      <property name="text">
       <string>DONE</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>
@@ -333,9 +423,9 @@
     <widget class="QTimeEdit" name="timeEdit">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>10</x>
        <y>150</y>
-       <width>101</width>
+       <width>141</width>
        <height>61</height>
       </rect>
      </property>
@@ -361,13 +451,16 @@
        <hour>23</hour>
        <minute>59</minute>
        <second>59</second>
-       <year>2002</year>
+       <year>1998</year>
        <month>1</month>
        <day>1</day>
       </datetime>
      </property>
      <property name="currentSection">
       <enum>QDateTimeEdit::HourSection</enum>
+     </property>
+     <property name="timeSpec">
+      <enum>Qt::LocalTime</enum>
      </property>
     </widget>
    </widget>

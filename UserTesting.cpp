@@ -1,5 +1,5 @@
 #include "UserTesing.h"
-#include "ui_mainwindow.h"
+#include "ui_UserTesting.h"
 #include "QDebug"
 #include "QStringBuilder"
 #include "QStringList"
@@ -15,6 +15,13 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->timeEdit->setDisplayFormat("mm:ss");
     this->ui->timeEdit->setTime(QTime(0,0,0,0));
     timer =  new QTimer(this);
+
+    QButtonGroup * groupButtons = new QButtonGroup(this->ui->frameButtons);
+    groupButtons->addButton(this->ui->btnStart);
+    groupButtons->addButton(this->ui->btnStop);
+    groupButtons->addButton(this->ui->btnDone);
+    groupButtons->setExclusive(true);
+
 }
 
 MainWindow::~MainWindow()
@@ -27,10 +34,10 @@ void MainWindow::testingMode(bool testing)
     ///We set the frames off when we are testing and leave the stop button active
     this->ui->frame_DEVICES->setEnabled(!testing);
     this->ui->frame_TASKS->setEnabled(!testing);
-    this->ui->btnStart->setEnabled(!testing);
+    //this->ui->btnStart->setChecked(!testing);
 
-    this->ui->btnStop->setEnabled(testing);
-    this->ui->btnDone->setEnabled(testing);
+   // this->ui->btnStop->setChecked(testing);
+   // this->ui->btnDone->setChecked(testing);
 }
 
 void MainWindow::on_btnStart_clicked()
